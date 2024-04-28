@@ -1,4 +1,4 @@
-# hashkey-global-api-postman
+# HashKey Global API Postman
 
 Hashkey Global now offers Postman collections and environments a popular plug and play API test environment that allows implementing and testing REST and API endpoints.
 
