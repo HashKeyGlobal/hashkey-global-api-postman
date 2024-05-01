@@ -32,6 +32,8 @@ pm.environment.set("signature", signature);
 ```
 
 ## 1. Download Postman from Postman.com website
+![](https://files.readme.io/b57bfa2-image.png)
+
 ## 2. Go to our HashKey Global API Postman repository and download the Postman Collection and Environment files
 ## 3. Go to Collection and Environment to download the respective files
 ## 4. Open Postman and navigate to "Import"
