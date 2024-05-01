@@ -30,3 +30,12 @@ var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObjec
 var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();
 pm.environment.set("signature", signature);
 ```
+
+## 1. Download Postman from Postman.com website
+## 2. Go to our HashKey Global API Postman repository and download the Postman Collection and Environment files
+## 3. Go to Collection and Environment to download the respective files
+## 4. Open Postman and navigate to "Import"
+## 5. Locate the 2 files to upload or simply drag and drop, you will also need to import the Environment file
+## 6. You will also need to import the Environment file
+## 7. To ensure Access and Secret is configured properly. Please select environment on the top right corner
+## 8. Select any endpoints and click "Send".
