@@ -46,20 +46,7 @@ pm.environment.set("signature", signature);
 ![](https://files.readme.io/7cc8e7a-image.png)
 ## 4. Open Postman and navigate to "Import"
 
-[block:image]
-{
-  "images": [
-    {
-      "image": [
-        "https://files.readme.io/5f2796b-Import_Postman.png",
-        "",
-        ""
-      ],
-      "align": "center"
-    }
-  ]
-}
-[/block]
+![](https://files.readme.io/5f2796b-Import_Postman.png)
 
 ## 5. Locate the 2 files to upload or simply drag and drop, you will also need to import the Environment file
 
@@ -68,50 +55,12 @@ pm.environment.set("signature", signature);
 ![](https://files.readme.io/5475132-image.png)
 ## 6. You will also need to import the Environment file
 
-[block:image]
-{
-  "images": [
-    {
-      "image": [
-        "https://files.readme.io/cc45130-Global_Environment.png",
-        "",
-        ""
-      ],
-      "align": "center"
-    }
-  ]
-}
-[/block]
+![](https://files.readme.io/cc45130-Global_Environment.png)
 
 ## 7. To ensure Access and Secret is configured properly. Please select environment on the top right corner
 
-[block:image]
-{
-  "images": [
-    {
-      "image": [
-        "https://files.readme.io/cad3521-setupenvironment.png",
-        "",
-        ""
-      ],
-      "align": "center"
-    }
-  ]
-}
-[/block]
+![](https://files.readme.io/cad3521-setupenvironment.png)
+
 ## 8. Select any endpoints and click "Send".
 
-[block:image]
-{
-  "images": [
-    {
-      "image": [
-        "https://files.readme.io/0a3b919-finish.png",
-        "",
-        ""
-      ],
-      "align": "center"
-    }
-  ]
-}
-[/block]
+![](https://files.readme.io/0a3b919-finish.png)
