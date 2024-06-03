@@ -1,0 +1,5455 @@
+{
+	"info": {
+		"_postman_id": "d0c0ac1f-85bc-4f43-af7c-cfdd644944fe",
+		"name": "HashKey v1 Global Sample (as of June 2024)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34574582"
+	},
+	"item": [
+		{
+			"name": "Spot Trading Endpoints",
+			"item": [
+				{
+					"name": "/api/v1/spot/orderTest (Test New Order)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/spot/orderTest?symbol=BTCUSDT&side=BUY&type=LIMIT&quantity=0.01&price=68000&recvWindow=5000&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"spot",
+								"orderTest"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "BTCUSDT"
+								},
+								{
+									"key": "side",
+									"value": "BUY"
+								},
+								{
+									"key": "type",
+									"value": "LIMIT"
+								},
+								{
+									"key": "quantity",
+									"value": "0.01"
+								},
+								{
+									"key": "price",
+									"value": "68000"
+								},
+								{
+									"key": "recvWindow",
+									"value": "5000"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/spot/order (Order Submission)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"console.log(api_secret)\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/spot/order?newClientOrderId=99999999980090&price=3000&quantity=0.1&side=BUY&symbol=ETHUSDT&recvWindow=5000&type=LIMIT&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"spot",
+								"order"
+							],
+							"query": [
+								{
+									"key": "newClientOrderId",
+									"value": "99999999980090"
+								},
+								{
+									"key": "price",
+									"value": "3000"
+								},
+								{
+									"key": "quantity",
+									"value": "0.1"
+								},
+								{
+									"key": "side",
+									"value": "BUY"
+								},
+								{
+									"key": "symbol",
+									"value": "ETHUSDT"
+								},
+								{
+									"key": "recvWindow",
+									"value": "5000"
+								},
+								{
+									"key": "type",
+									"value": "LIMIT"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1.1/spot/order (Order submission v1.1)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"console.log(api_secret)\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1.1/spot/order?newClientOrderId=99999999980093&price=3000&quantity=0.1&side=BUY&symbol=ETHUSDT&recvWindow=5000&type=MARKET&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1.1",
+								"spot",
+								"order"
+							],
+							"query": [
+								{
+									"key": "newClientOrderId",
+									"value": "99999999980093"
+								},
+								{
+									"key": "price",
+									"value": "3000"
+								},
+								{
+									"key": "quantity",
+									"value": "0.1"
+								},
+								{
+									"key": "side",
+									"value": "BUY"
+								},
+								{
+									"key": "symbol",
+									"value": "ETHUSDT"
+								},
+								{
+									"key": "recvWindow",
+									"value": "5000"
+								},
+								{
+									"key": "type",
+									"value": "MARKET"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/spot/batchOrders (Place Multiple Orders)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"var data = [\r",
+									"{\r",
+									"  \"symbol\": \"BTCUSDT\",\r",
+									"  \"side\": \"BUY\",\r",
+									"  \"type\": \"LIMIT\",\r",
+									"  \"price\": \"68000\",\r",
+									"  \"quantity\": \"0.01\",\r",
+									"  \"newClientOrderId\": \"122455\"\r",
+									"},\r",
+									"{\r",
+									"  \"symbol\": \"BTCUSDT\",\r",
+									"  \"side\": \"BUY\",\r",
+									"  \"type\": \"LIMIT\",\r",
+									"  \"price\": \"67000\",\r",
+									"  \"quantity\": \"0.01\",\r",
+									"  \"newClientOrderId\": \"122433\"\r",
+									"}\r",
+									"];\r",
+									"\r",
+									"pm.variables.set(\"postBody\", JSON.stringify(data));\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{postBody}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/spot/batchOrders?timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"spot",
+								"batchOrders"
+							],
+							"query": [
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/spot/order (Cancel Order)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/spot/order?clientOrderId=999999999800011&recvWindow=100000&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"spot",
+								"order"
+							],
+							"query": [
+								{
+									"key": "clientOrderId",
+									"value": "999999999800011"
+								},
+								{
+									"key": "orderId",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "recvWindow",
+									"value": "100000"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/spot/openOrders (Cancel All Open Orders)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/spot/openOrders?symbol=BTCUSDT&recvWindow=5000&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"spot",
+								"openOrders"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "BTCUSDT"
+								},
+								{
+									"key": "recvWindow",
+									"value": "5000"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/spot/cancelOrderByIds (Cancel Multiple Orders)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/spot/cancelOrderByIds?ids=1507155386372816640,1507155487740667904&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"spot",
+								"cancelOrderByIds"
+							],
+							"query": [
+								{
+									"key": "ids",
+									"value": "1507155386372816640,1507155487740667904"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/spot/order (Query Order)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/spot/order?orderId=1673814339394608640&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"spot",
+								"order"
+							],
+							"query": [
+								{
+									"key": "orderId",
+									"value": "1673814339394608640"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/spot/openOrders (Get Current Open Orders)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/spot/openOrders?timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"spot",
+								"openOrders"
+							],
+							"query": [
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/spot/tradeOrders (Get All Orders)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/spot/tradeOrders?timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"spot",
+								"tradeOrders"
+							],
+							"query": [
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Futures Trading Endpoints",
+			"item": [
+				{
+					"name": "/api/v1/futures/leverage (Change Futures leverage)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/leverage?symbol=BTCUSDT-PERPETUAL&leverage=10&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"leverage"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "BTCUSDT-PERPETUAL"
+								},
+								{
+									"key": "leverage",
+									"value": "10"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/leverage (Query Futures leverage)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/leverage?symbol=BTCUSDT-PERPETUAL&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"leverage"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "BTCUSDT-PERPETUAL"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/order (Create new Futures order)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"console.log(api_secret)\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/order?clientOrderId=99999999980005&symbol=ETHUSDT-PERPETUAL&side=BUY_OPEN&type=LIMIT&price=3000&quantity=10000&recvWindow=5000&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"order"
+							],
+							"query": [
+								{
+									"key": "clientOrderId",
+									"value": "99999999980005"
+								},
+								{
+									"key": "symbol",
+									"value": "ETHUSDT-PERPETUAL"
+								},
+								{
+									"key": "side",
+									"value": "BUY_OPEN"
+								},
+								{
+									"key": "type",
+									"value": "LIMIT"
+								},
+								{
+									"key": "price",
+									"value": "3000"
+								},
+								{
+									"key": "quantity",
+									"value": "10000"
+								},
+								{
+									"key": "recvWindow",
+									"value": "5000"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/position/trading-stop (Set trading stop)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/position/trading-stop?symbol=ETHUSDT-PERPETUAL&side=LONG&stopProfit=3200&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"position",
+								"trading-stop"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "ETHUSDT-PERPETUAL"
+								},
+								{
+									"key": "side",
+									"value": "LONG"
+								},
+								{
+									"key": "stopProfit",
+									"value": "3200"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/batchOrders (Batch create new Futures order)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"var data = [\r",
+									"{\r",
+									"  \"symbol\": \"ETHUSDT-PERPETUAL\",\r",
+									"  \"side\": \"BUY_OPEN\",\r",
+									"  \"type\": \"LIMIT\",\r",
+									"  \"price\": 3000,\r",
+									"  \"priceType\": \"INPUT\",\r",
+									"  \"quantity\": 10000,\r",
+									"  \"clientOrderId\": \"122455\"\r",
+									"},\r",
+									"{\r",
+									"  \"symbol\": \"ETHUSDT-PERPETUAL\",\r",
+									"  \"side\": \"BUY_OPEN\",\r",
+									"  \"type\": \"LIMIT\",\r",
+									"  \"price\": 3100,\r",
+									"  \"priceType\": \"INPUT\",\r",
+									"  \"quantity\": 10000,\r",
+									"  \"clientOrderId\": \"122433\"\r",
+									"}\r",
+									"];\r",
+									"\r",
+									"pm.variables.set(\"postBody\", JSON.stringify(data));\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{postBody}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/batchOrders?timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"batchOrders"
+							],
+							"query": [
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/order (Cancel Futures order)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"console.log(api_secret)\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{postBody}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/order?orderId=1674945624754144000&type=LIMIT&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"order"
+							],
+							"query": [
+								{
+									"key": "orderId",
+									"value": "1674945624754144000"
+								},
+								{
+									"key": "type",
+									"value": "LIMIT"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/batchOrders (Batch cancel Futures order)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"console.log(api_secret)\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{postBody}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/batchOrders?symbol=ETHUSDT-PERPETUAL&side=BUY&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"batchOrders"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "ETHUSDT-PERPETUAL"
+								},
+								{
+									"key": "side",
+									"value": "BUY"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/cancelOrderByIds (Batch cancel Futures order by order id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"console.log(api_secret)\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{postBody}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/cancelOrderByIds?ids=1676062807244807680&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"cancelOrderByIds"
+							],
+							"query": [
+								{
+									"key": "ids",
+									"value": "1676062807244807680"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/order (Get Futures order)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"console.log(api_secret)\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{postBody}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/order?orderId=1674945624754144000&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"order"
+							],
+							"query": [
+								{
+									"key": "orderId",
+									"value": "1674945624754144000"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/openOrders (Query open Futures orders)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/openOrders?symbol=ETHUSDT-PERPETUAL&type=LIMIT&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"openOrders"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "ETHUSDT-PERPETUAL"
+								},
+								{
+									"key": "type",
+									"value": "LIMIT"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/userTrades (Query Futures trades)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/userTrades?symbol=ETHUSDT-PERPETUAL&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"userTrades"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "ETHUSDT-PERPETUAL"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/positions (Get Futures positions)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/positions?symbol=ETHUSDT-PERPETUAL&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"positions"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "ETHUSDT-PERPETUAL"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/historyOrders (Query Futures history orders)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/historyOrders?symbol=ETHUSDT-PERPETUAL&type=LIMIT&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"historyOrders"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "ETHUSDT-PERPETUAL"
+								},
+								{
+									"key": "type",
+									"value": "LIMIT"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/balance (Get Futures account balance)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/balance?timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"balance"
+							],
+							"query": [
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Futures Reference data",
+			"item": [
+				{
+					"name": "/api/v1/futures/fundingRate (Get Futures funding rate)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/fundingRate?timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"fundingRate"
+							],
+							"query": [
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/historyFundingRate (Get Futures history funding rate)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/historyFundingRate?symbol=ETHUSDT-PERPETUAL&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"historyFundingRate"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "ETHUSDT-PERPETUAL"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/riskLimit (Query Futures risk limit)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/riskLimit?symbol=BTCUSDT-PERPETUAL&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"riskLimit"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "BTCUSDT-PERPETUAL"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/commissionRate (Get Futures commission rate)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/commissionRate?symbol=BTCUSDT-PERPETUAL&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"commissionRate"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "BTCUSDT-PERPETUAL"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/futures/getBestOrder (Get Futures best order)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"console.log(requestString)\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"console.log(api_secret)\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/futures/getBestOrder?symbol=ETHUSDT-PERPETUAL&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"futures",
+								"getBestOrder"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "ETHUSDT-PERPETUAL"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Public Market Data",
+			"item": [
+				{
+					"name": "/quote/v1/depth (Order Book)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/quote/v1/depth?symbol=BTCUSDT",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"quote",
+								"v1",
+								"depth"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "BTCUSDT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/quote/v1/trades (Recent Trade List)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/quote/v1/trades?symbol=BTCUSDT",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"quote",
+								"v1",
+								"trades"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "BTCUSDT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/quote/v1/klines (Retrieve Kline Data)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/quote/v1/klines?symbol=BTCUSDT&interval=1d&limit=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"quote",
+								"v1",
+								"klines"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "BTCUSDT"
+								},
+								{
+									"key": "interval",
+									"value": "1d"
+								},
+								{
+									"key": "limit",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/quote/v1/ticker/24hr (Retrieve 24hr Ticker price Change)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/quote/v1/ticker/24hr?symbol=BTCUSDT",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"quote",
+								"v1",
+								"ticker",
+								"24hr"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "BTCUSDT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/quote/v1/ticker/price (Get Symbol Price Ticker)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/quote/v1/ticker/price?symbol=BTCUSDT",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"quote",
+								"v1",
+								"ticker",
+								"price"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "BTCUSDT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/quote/v1/ticker/bookTicker (Get Symbol Order Book Ticker)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/quote/v1/ticker/bookTicker?symbol=BTCUSDT",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"quote",
+								"v1",
+								"ticker",
+								"bookTicker"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "BTCUSDT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/quote/v1/depth/merged (Get Merge Depth)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/quote/v1/depth/merged?symbol=BTCUSDT",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"quote",
+								"v1",
+								"depth",
+								"merged"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "BTCUSDT"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "/api/v1/account (Get Account Information)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/account?timestamp={{timestamp}}&signature={{signature}}&accountId=1673782460192774144",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"account"
+							],
+							"query": [
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								},
+								{
+									"key": "accountId",
+									"value": "1673782460192774144"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/account/trades (Get Account Trade List) Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/account/trades?startTime=1714070545956&endTime=1714270545956&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"account",
+								"trades"
+							],
+							"query": [
+								{
+									"key": "startTime",
+									"value": "1714070545956"
+								},
+								{
+									"key": "endTime",
+									"value": "1714270545956"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/account/type (Query Account Type)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/account/type?timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"account",
+								"type"
+							],
+							"query": [
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/account/assetTransfer(New Account Transfer)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/account/assetTransfer?fromAccountId=1649292498437183232&toAccountId=1649292498437183235&coin=USDT&quantity=0.01&signature={{signature}}&timestamp={{timestamp}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"account",
+								"assetTransfer"
+							],
+							"query": [
+								{
+									"key": "fromAccountId",
+									"value": "1649292498437183232"
+								},
+								{
+									"key": "toAccountId",
+									"value": "1649292498437183235"
+								},
+								{
+									"key": "coin",
+									"value": "USDT"
+								},
+								{
+									"key": "quantity",
+									"value": "0.01"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/account/checkApiKey",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/account/checkApiKey?timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"account",
+								"checkApiKey"
+							],
+							"query": [
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/account/balanceFlow (Get Fund Statement)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/account/balanceFlow?timestamp={{timestamp}}&signature={{signature}}&flowType=51&startTime=1714070726382&endTime=1714270726382",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"account",
+								"balanceFlow"
+							],
+							"query": [
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								},
+								{
+									"key": "flowType",
+									"value": "51"
+								},
+								{
+									"key": "startTime",
+									"value": "1714070726382"
+								},
+								{
+									"key": "endTime",
+									"value": "1714270726382"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sub Account",
+			"item": [
+				{
+					"name": "/api/v1/subAccount/tradeOrders Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/spot/subAccount/tradeOrders?subAccountId=1673782460192774144&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"spot",
+								"subAccount",
+								"tradeOrders"
+							],
+							"query": [
+								{
+									"key": "subAccountId",
+									"value": "1673782460192774144"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/subAccount/trades Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/subAccount/trades?subAccountId=1673782460192774144&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"subAccount",
+								"trades"
+							],
+							"query": [
+								{
+									"key": "subAccountId",
+									"value": "1673782460192774144"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/subAccount/openOrders Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/spot/subAccount/openOrders?subAccountId=1673782460192774144&timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"spot",
+								"subAccount",
+								"openOrders"
+							],
+							"query": [
+								{
+									"key": "subAccountId",
+									"value": "1673782460192774144"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Miscellanous",
+			"item": [
+				{
+					"name": "/api/v1/ping (Test Connectivity)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/ping",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/time (Check Server Time)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/time",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"time"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/userDataStream (Create a ListenKey)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/userDataStream?timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"userDataStream"
+							],
+							"query": [
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/exchangeInfo (Exchange Information)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/exchangeInfo?symbol=ETHUSDT",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"exchangeInfo"
+							],
+							"query": [
+								{
+									"key": "symbol",
+									"value": "ETHUSDT"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Wallet",
+			"item": [
+				{
+					"name": "/api/v1/account/depositOrders (Get Deposit History)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/account/depositOrders?timestamp={{timestamp}}&signature={{signature}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"account",
+								"depositOrders"
+							],
+							"query": [
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/account/deposit/address",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/account/deposit/address?coin=USDT&chainType=ETH&signature={{signature}}&timestamp={{timestamp}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"account",
+								"deposit",
+								"address"
+							],
+							"query": [
+								{
+									"key": "coin",
+									"value": "USDT"
+								},
+								{
+									"key": "chainType",
+									"value": "ETH"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/account/withdrawOrders (Withdrawal records)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/account/withdrawOrders?timestamp={{timestamp}}&signature={{signature}}&coin=ETH&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"account",
+								"withdrawOrders"
+							],
+							"query": [
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								},
+								{
+									"key": "coin",
+									"value": "ETH"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v1/account/withdraw",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var timestamp = new Date().getTime().toString();\r",
+									"pm.environment.set(\"timestamp\", timestamp);\r",
+									"\r",
+									"var api_secret = pm.environment.get(\"secretKey\");\r",
+									"var parameters = pm.request.url.query.toObject();\r",
+									"\r",
+									"var paramsObject = {};\r",
+									"\r",
+									"Object.keys(parameters).forEach((paramKey) => {\r",
+									"  var paramValue = parameters[paramKey];\r",
+									"  var disabled = false;\r",
+									"\r",
+									"  if (paramKey !== 'signature' && paramValue && !disabled) {\r",
+									"    paramsObject[paramKey] = paramValue;\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"paramsObject.timestamp = timestamp;\r",
+									"\r",
+									"var requestString = Object.keys(paramsObject).map((key) => `${key}=${paramsObject[key]}`).join('&');\r",
+									"\r",
+									"var signature = CryptoJS.HmacSHA256(requestString, api_secret).toString();\r",
+									"pm.environment.set(\"signature\", signature);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "X-HK-APIKEY",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/account/withdraw?timestamp={{timestamp}}&signature={{signature}}&coin=ETH&quantity=0.05&address=0xa0d6ad420c440de473980117877dec0a89dafbef&chainType=ETH&clientOrderId=123456",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"account",
+								"withdraw"
+							],
+							"query": [
+								{
+									"key": "timestamp",
+									"value": "{{timestamp}}"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}"
+								},
+								{
+									"key": "coin",
+									"value": "ETH"
+								},
+								{
+									"key": "quantity",
+									"value": "0.05"
+								},
+								{
+									"key": "address",
+									"value": "0xa0d6ad420c440de473980117877dec0a89dafbef"
+								},
+								{
+									"key": "chainType",
+									"value": "ETH"
+								},
+								{
+									"key": "clientOrderId",
+									"value": "123456"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "clientOrderId",
+			"value": ""
+		},
+		{
+			"key": "orderId",
+			"value": ""
+		}
+	]
+}
